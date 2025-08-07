@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CornFarm - Игровой портал</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+        
+        :root {
+            --farm-color: #FF9800;
+            --mine-color: #4CAF50;
+            --pizza-color: #9E9E9E;
+            --ad-color: #FFEB3B;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            background: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+        }
+
+        .wrapper {
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4a8c3e;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .ad-btn {
+            padding: 10px 20px;
+            background-color: var(--ad-color);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        .game-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 250px;
+            border: 1px solid #eee;
+        }
+
+        .game-image {
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .farm .game-image {
+            background-color: #FFE0B2;
+        }
+
+        .miner .game-image {
+            background-color: #C8E6C9;
+        }
+
+        .pizza .game-image {
+            background-color: #EEEEEE;
+            filter: grayscale(80%);
+        }
+
+        .game-content {
+            padding: 20px;
+        }
+
+        .game-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .farm .game-title {
+            color: var(--farm-color);
+        }
+
+        .miner .game-title {
+            color: var(--mine-color);
+        }
+
+        .pizza .game-title {
+            color: var(--pizza-color);
+        }
+
+        .game-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+            width: 80%;
+        }
+
+        .soon-btn {
+            background-color: var(--farm-color);
+            color: white;
+        }
+
+        .disabled-btn {
+            background-color: #e0e0e0;
+            color: #9e9e9e;
+            cursor: not-allowed;
+        }
+
+        .active-btn {
+            background-color: var(--mine-color);
+            color: white;
+        }
+
+        .game-status {
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .soon-status {
+            color: var(--farm-color);
+        }
+
+        .disabled-status {
+            color: #f44336;
+        }
+
+        .active-status {
+            color: var(--mine-color);
+        }
+
+        footer {
+            margin-top: 50px;
+            color: #757575;
+            font-size: 0.9rem;
+        }
+
+        /* Модальное окно */
+        .ad-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ad-content {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .ad-content h2 {
+            color: #FF9800;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .conditions {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .conditions ol {
+            padding-left: 20px;
+        }
+
+        .conditions li {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .tg-link {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #0088cc;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <div class="logo">CornFarm</div>
+            <div class="subtitle">Мы выращиваем развлечения!</div>
+<div class="subtitle">Листайте вниз</div>
+            <button class="ad-btn" id="adBtn">Купить рекламу</button>
+        </div>
+
+        <div class="game-container">
+            <!-- Ферма - скоро -->
+            <div class="game-card pizza">
+                <div class="game-content">
+                    <h3 class="game-title">Кукурузная Ферма (скоро)</h3>
+                    <button class="game-btn disabled-btn" disabled>Скоро</button>
+                    <div class="game-status disabled-status">Скоро будет доступно</div>
+                </div>
+            </div>
+
+            <!-- Пиццерия - техработы -->
+            <div class="game-card pizza">
+                <div class="game-content">
+                    <h3 class="game-title">Пиццерия</h3>
+                    <button class="game-btn disabled-btn" disabled>Недоступно</button>
+                    <div class="game-status disabled-status">На технических работах</div>
+                </div>
+            </div>
+
+            <!-- Шахтерское королевство - доступно -->
+            <div class="game-card miner">
+                <div class="game-content">
+                    <h3 class="game-title">Шахтерское Королевство</h3>
+                    <button class="game-btn active-btn" onclick="window.location.href='https://cornmining.github.io/shahta/'">Играть</button>
+                    <div class="game-status active-status">Доступно для игры</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ad-modal" id="adModal">
+        <div class="ad-content">
+            <button class="close-btn" id="closeBtn">&times;</button>
+            <h2>Условия размещения рекламы</h2>
+            <div class="conditions">
+                <ol>
+                    <li>Реклама размещается на всегда</li>
+                    <li>Реклама появляется раз в 2 минуты</li>
+                    <li>Рекламу можно пропустить через 5-10 сек</li>
+                    <li>Без фото</li>
+                    <li>Оплата через @send</li>
+                </ol>
+            </div>
+            <p>Для заказа:</p>
+            <a href="https://t.me/W2SP3R" class="tg-link" target="_blank">@W2SP3R</a>
+        </div>
+    </div>
+
+    <footer>
+        CornFarm
+    </footer>
+
+    <script>
+        const adBtn = document.getElementById('adBtn');
+        const adModal = document.getElementById('adModal');
+        const closeBtn = document.getElementById('closeBtn');
+
+        adBtn.addEventListener('click', () => {
+            adModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            adModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === adModal) {
+                adModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>
